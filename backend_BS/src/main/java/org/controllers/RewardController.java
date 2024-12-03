@@ -9,14 +9,22 @@ public class RewardController {
     @Autowired
     RewardService rewardService;
 
-    @GetMapping
+    @GetMapping(value = "/reward/{rewardId}")
+    public ResponseEntity<Reward> getRewardById(Long rewardId){
+        Reward reward = rewardService.getReward(rewardId);
+        return new ResponseEntity<>(reward, HttpStatus.OK)
+    }
 
-
-    @GetMapping
+    @GetMapping(value = "/reward")
     public ResponseEntity<List<Reward>> getAllRewards(){
         List<Reward> rewards = rewardService.getAllRewards();
         return new ResponseEntity<>(rewards, HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<Reward> addPointsToUserProfile(int points,  ){
+        User user = userService.addPoints(points);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
 
 }

@@ -11,12 +11,17 @@ public class RewardService {
     @Autowired
     RewardRepository rewardRepository;
 
-    public Reward getRewardById(Long rewardId){
+    public Reward getReward(Long rewardId){
         Reward reward = rewardRepository.findById(rewardId);
         return reward;
     }
     public List<Reward> getAllRewards(){
+        List<Reward> rewards = rewardRepository.findAll();
+        return rewards;
     }
+
+
+
 
 
 
