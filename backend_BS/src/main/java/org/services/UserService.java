@@ -8,17 +8,49 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    RewardRepository rewardRepository;
+
     public User getUserById(Long userId){
         User user = userRepository.findById(userId);
         return user;
     }
-
-    //remove a reward from reward list
-
-    //add a reward to the reward list
-
-    public User addReward() {
-
+    public addRewardToUser(Long rewardId, Long userId){
+        Reward reward = rewardRepository.findById(rewardId);
+        User user = userRepository.findById(userId);
+        List<Reward> allRewards = user.getListOfRewards();
+        allRewards.add(reward);
+        userRepository.save(user);
     }
+    public int addPointsToUser(Long rewardId, Long userId) {
+       Reward reward = rewardRepository.findById(rewardId);
+       User user = userRepository.findById(userId);
+       int rewardPoints = reward.getPoints();
+       int userPoints = user.getTotalRewardBalance();
+       int newPoints = userPoints + rewardPoints;
+       user.setTotalRewardBalance(newPoints);
+       user.addRewardToUser(rewardId, userId);
+       userRepository.save(user);
+       return newPoints;
+    }
+
+
+    public deleteRewardFromuser(Long rewardId, Long userId){
+        Reward reward = rewardRepository.findById(rewardId);
+        User user = userRepository.findById(userId);
+        List<Reward> allRewards = user.getListOfRewards();
+        allRewards.remove(reward);
+        user.deletePointsFromUser(rewardId, userId);
+        userRepository.save(user);
+    }
+    public User deletePointsFromUser(Long userId, Long rewardId){
+        Reward reward = rewardRepository.findById(rewardId);
+        User user = userRepository.findById(userId);
+        int rewardPoints = reward.getPoints();
+        int userPoints = user.getTotalRewardBalance();
+        int newPoints = userPoints - rewardPoints;
+        user.setTotalRewardBalance(newPoints);
+        userRepository.save(user);
+    }
+
 
 }
