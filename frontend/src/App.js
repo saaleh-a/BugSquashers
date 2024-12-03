@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import UserPage from './pages/UserPage';
 import RewardsPage from './pages/RewardsPage';
 import BankDetails from './components/BankDetails';
+import MonthlyStatementPage from './pages/MonthlyStatementPage'; // New page
 
 function App() {
   const [currentPage, setCurrentPage] = useState('user'); // State to track current page
@@ -14,6 +15,8 @@ function App() {
         return <BankDetails />;
       case 'rewards':
         return <RewardsPage />;
+      case 'monthly-statement': // New case for Monthly Reward Statement
+        return <MonthlyStatementPage />;
       default:
         return <UserPage />;
     }
@@ -49,6 +52,14 @@ function App() {
                   onClick={() => setCurrentPage('rewards')}
                 >
                   Rewards
+                </button>
+              </li>
+              <li className="nav-item">
+                <button
+                  className="nav-link btn btn-link text-light"
+                  onClick={() => setCurrentPage('monthly-statement')}
+                >
+                  Monthly Statement
                 </button>
               </li>
             </ul>
