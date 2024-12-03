@@ -30,7 +30,7 @@ public class DataLoader implements ApplicationRunner {
         Reward retailReward = new Reward("JohnLewis cashback", 150);
 
         Reward watchedVideoReward = new Reward("Reward for watching educational video", 50);
-        Reward stepsReward = new Reward("Reward for being physically active", 50);
+        Reward stepsReward = new Reward("Reward for being active", 50);
 
 
         rewardRepository.save(sainsburysReward);
@@ -39,6 +39,7 @@ public class DataLoader implements ApplicationRunner {
         rewardRepository.save(asdaReward);
         rewardRepository.save(watchedVideoReward);
         rewardRepository.save(stepsReward);
+
     }
 
 }
