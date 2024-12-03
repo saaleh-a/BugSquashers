@@ -1,40 +1,44 @@
 package services;
 
 import models.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import repositories.UserRepository;
+
+import java.util.List;
 
 @Service
 public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    RewardRepository rewardRepository;
+    repositories.RewardRepository rewardRepository;
 
     public User getUserById(Long userId){
         User user = userRepository.findById(userId);
         return user;
     }
-    public addRewardToUser(Long rewardId, Long userId){
-        Reward reward = rewardRepository.findById(rewardId);
+    public void addRewardToUser(Long rewardId, Long userId){
+        models.Reward reward = rewardRepository.findById(rewardId);
         User user = userRepository.findById(userId);
-        List<Reward> allRewards = user.getListOfRewards();
+        List<models.Reward> allRewards = user.getListOfRewards();
         allRewards.add(reward);
         userRepository.save(user);
     }
     public int addPointsToUser(Long rewardId, Long userId) {
-       Reward reward = rewardRepository.findById(rewardId);
+       models.Reward reward = rewardRepository.findById(rewardId);
        User user = userRepository.findById(userId);
        int rewardPoints = reward.getPoints();
        int userPoints = user.getTotalRewardBalance();
        int newPoints = userPoints + rewardPoints;
        user.setTotalRewardBalance(newPoints);
-       user.addRewardToUser(rewardId, userId);
+       addRewardToUser(rewardId, userId);
        userRepository.save(user);
        return newPoints;
     }
 
 
-    public deleteRewardFromuser(Long rewardId, Long userId){
+    public void deleteRewardFromUser(Long rewardId, Long userId){
         Reward reward = rewardRepository.findById(rewardId);
         User user = userRepository.findById(userId);
         List<Reward> allRewards = user.getListOfRewards();
@@ -42,7 +46,7 @@ public class UserService {
         user.deletePointsFromUser(rewardId, userId);
         userRepository.save(user);
     }
-    public User deletePointsFromUser(Long userId, Long rewardId){
+    public void deletePointsFromUser(Long userId, Long rewardId){
         Reward reward = rewardRepository.findById(rewardId);
         User user = userRepository.findById(userId);
         int rewardPoints = reward.getPoints();

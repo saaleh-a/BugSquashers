@@ -1,5 +1,8 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 
 @Entity(name = "users")
@@ -19,16 +22,17 @@ public class User {
 
     @OneToMany(mappedBy = "users")
     @JsonIgnoreProperties({"users"})
-    private ArrayList<Reward> listOfRewards;
+    private ArrayList<models.Reward> listOfRewards;
 
     @Column
     private int totalRewardBalance;
 
-    User(String name) {
+    User(Long id, String name) {
+        this.id = id;
         this.noOfDirectDebits = 0;
         this.name = name;
         this.balance = 0;
-        this.listOfRewards = new ArrayList<Reward>;
+        this.listOfRewards = new ArrayList<models.Reward>();
         this.totalRewardBalance = 0;
     }
 
@@ -58,11 +62,11 @@ public class User {
         this.balance = balance;
     }
 
-    public ArrayList<Reward> getListOfRewards() {
+    public ArrayList<models.Reward> getListOfRewards() {
         return listOfRewards;
     }
 
-    public void setListOfRewards(ArrayList<Reward> listOfRewards) {
+    public void setListOfRewards(ArrayList<models.Reward> listOfRewards) {
         this.listOfRewards = listOfRewards;
     }
 
